@@ -6,24 +6,32 @@ import (
 )
 
 func main() {
-	userInput()
-}
-
-func userInput() {
 	var command string
 	fmt.Println("Please enter a command.")
 	fmt.Scan(&command)
-	if command == "yo" {
-		test()
+
+	if command == "reboot" {
+		rebootCMD()
+	} else if command == "update" {
+		updateCMD()
 	} else {
-		fmt.Println("Invalid command.")
+		fmt.Println("Invalid Command.")
 	}
 }
 
-func test() {
-	cmd := exec.Command("ls")
+func rebootCMD() {
+	cmd := exec.Command("reboot")
 	err := cmd.Run()
 	if err != nil {
 		fmt.Println("There was an error, ", err)
 	}
+}
+
+func updateCMD() {
+	cmd := exec.Command("apt", "update")
+	out, err := cmd.Output()
+	if err != nil {
+		fmt.Print("There was an error, ", err)
+	}
+	fmt.Println("Command Output:", string(out))
 }
