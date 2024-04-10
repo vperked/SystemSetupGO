@@ -10,8 +10,8 @@ func main() {
 	var invalid string = "Invalid Command"
 	fmt.Println("Please enter a command.")
 	fmt.Scan(&command)
-	if command == "reboot" {
-		speedTestCMD()
+	if command == "root" {
+		enableRootCMD()
 	} else if command == "update" {
 		updateCMD()
 	} else if command == "install" {
@@ -42,7 +42,7 @@ func updateCMD() {
 }
 
 func installCMD() {
-	packages := []string{"nload", "wireshark", "tshark"}
+	packages := []string{"nload", "wireshark", "tshark", "tcpdump", "ipset", "nmap", "net-tools"}
 	for _, pkg := range packages {
 		cmd := exec.Command("apt", "install", pkg)
 		out, err := cmd.CombinedOutput()
@@ -59,6 +59,15 @@ func speedTestCMD() {
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Println("There was an error: ", err)
+	}
+	fmt.Println("Command Output: ", string(out))
+}
+
+func enableRootCMD() {
+	cmd := exec.Command("sed -i", "'s/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println("There was an error:", err)
 	}
 	fmt.Println("Command Output: ", string(out))
 }
