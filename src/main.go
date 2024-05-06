@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
+	"systemsetupgolang/src/packages"
 )
 
 func main() {
@@ -15,10 +16,16 @@ func main() {
 	fmt.Scan(&command)
 	if command == "update" {
 		updateCMD()
+	} else if command == "Full Install" {
+		updateCMD()
+		installCMD()
+		packages.SpeedTestCMD()
 	} else if command == "install" {
 		installCMD()
 	} else if command == "speedtest" {
-		speedTestCMD()
+		packages.SpeedTestCMD()
+	} else if command == "nginx" {
+		packages.InstallNginx()
 	} else {
 		fmt.Println(invalid)
 		fmt.Scanln()
@@ -27,15 +34,18 @@ func main() {
 
 func updateCMD() {
 	cmd := exec.Command("apt", "update", "-y")
-	out, err := cmd.Output()
+	out, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Print("There was an error: ", err)
+		return
 	}
 	fmt.Println("Command Output:", string(out))
+
 	upgrade := exec.Command("apt", "upgrade", "-y")
-	output, err := upgrade.Output()
+	output, err := upgrade.CombinedOutput()
 	if err != nil {
 		log.Fatal("Couldnt upgrade", err)
+		return
 	}
 	fmt.Println("Command output:", string(output))
 }
@@ -45,20 +55,11 @@ func installCMD() {
 	for _, pkg := range packages {
 		cmd := exec.Command("apt", "install", pkg, "-y")
 		cmd.Stdin = nil
-		out, err := cmd.Output()
+		out, err := cmd.CombinedOutput()
 		if err != nil {
 			fmt.Println("There was an error: ", err)
-			continue
+			return
 		}
 		fmt.Println("Command Output:", string(out))
 	}
-}
-
-func speedTestCMD() {
-	cmd := exec.Command("bash", "-c", "curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash && sudo apt-get install speedtest -y")
-	out, err := cmd.Output()
-	if err != nil {
-		fmt.Println("There was an error: ", err)
-	}
-	fmt.Println("Command Output: ", string(out))
 }
