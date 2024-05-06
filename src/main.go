@@ -29,6 +29,8 @@ func main() {
 		packages.InstallNginx()
 	} else if command == "hostname" {
 		packages.SetHostname()
+	} else if command == "openvpn" {
+		packages.OpenVPN()
 	} else {
 		fmt.Println(invalid)
 		fmt.Scanln()
