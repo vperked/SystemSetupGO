@@ -12,20 +12,23 @@ func main() {
 	var command string
 	var invalid string = "Invalid Command"
 	fmt.Println("Please enter a command.")
-	fmt.Println("Your options are, update, install, speedtest.")
+	fmt.Println("Input a command, a list can be found in cmds.txt!")
 	fmt.Scan(&command)
 	if command == "update" {
 		updateCMD()
-	} else if command == "Full Install" {
+	} else if command == "setup" {
 		updateCMD()
 		installCMD()
 		packages.SpeedTestCMD()
+		packages.SetHostname()
 	} else if command == "install" {
 		installCMD()
 	} else if command == "speedtest" {
 		packages.SpeedTestCMD()
 	} else if command == "nginx" {
 		packages.InstallNginx()
+	} else if command == "hostname" {
+		packages.SetHostname()
 	} else {
 		fmt.Println(invalid)
 		fmt.Scanln()
