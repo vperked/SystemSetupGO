@@ -1,8 +1,5 @@
 setup
-update
-install
 speedtest
 nginx
 openvpn
 pritunl
-hostname
