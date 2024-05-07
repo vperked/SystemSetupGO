@@ -21,6 +21,7 @@ func main() {
 		installCMD()
 		packages.SpeedTestCMD()
 		packages.SetHostname()
+		packages.WhiteList()
 	} else if command == "install" {
 		installCMD()
 	} else if command == "speedtest" {

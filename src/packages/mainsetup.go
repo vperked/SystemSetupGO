@@ -18,3 +18,18 @@ func SetHostname() {
 	fmt.Println(string(out))
 	fmt.Println("Set to:", hostname)
 }
+
+func WhiteList() {
+	fmt.Println("What port would you like to whitelist?")
+	var port string
+	var ip string
+	fmt.Scan(&port)
+	fmt.Println("What IP?")
+	fmt.Scan(&ip)
+	cmd := exec.Command("iptables", "-A", "INPUT", "-p", "tcp", "-s", ip, "--dport", port, "-j", "ACCEPT")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(out))
+}
