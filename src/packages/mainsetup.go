@@ -19,9 +19,8 @@ func SetHostname() {
 	fmt.Println("Set to:", hostname)
 }
 
-func WhiteList() {
+func WhiteList(port string) {
 	fmt.Println("What port would you like to whitelist?")
-	var port string
 	var ip string
 	fmt.Scan(&port)
 	fmt.Println("What IP?")
@@ -36,15 +35,14 @@ func WhiteList() {
 	var drop string
 	fmt.Scan(&drop)
 	if drop == "yes" {
-		dropPort()
+		dropPort("")
 	} else {
 		return
 	}
 }
 
-func dropPort() {
+func dropPort(port string) {
 	fmt.Println("What port would you like to drop?")
-	var port string
 	fmt.Scan(&port)
 	cmd := exec.Command("iptables", "-A", "INPUT", "-p", "tcp", "--dport", port, "-j", "DROP")
 	out, err := cmd.CombinedOutput()

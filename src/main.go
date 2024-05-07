@@ -18,7 +18,7 @@ func main() {
 		packages.InstallCMD()
 		packages.SpeedTestCMD()
 		packages.SetHostname()
-		packages.WhiteList()
+		packages.WhiteList("")
 	case "openvpn":
 		packages.OpenVPN()
 	case "hostname":
